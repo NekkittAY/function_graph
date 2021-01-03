@@ -7,9 +7,12 @@ def Calc(func):
                 mass+=str(i)
             else:
                 mass+=j
-        res1=eval(mass)
-        res.append(res1)
-        print(res1)
+        try:
+            res1=eval(mass)
+            res.append(res1)
+            print(res1)
+        except:
+            res.append(0)
         
 def draw_graph():
     for y in range(-10,11):
