@@ -22,7 +22,7 @@ def draw_graph():
             elif y == 0:
                 if x == 0:
                     graph.append("0")
-                elif x == 10:
+                elif x == 11:
                     graph.append(">")
                 else:
                     graph.append("-")
@@ -49,7 +49,7 @@ calc = Calc(func)
 zero_graph = draw_graph()
 func_graph = draw_func(res)
 print(res)
-index=1
+index=0
 list1=""
 for s in graph:
     if not(index%22==0):
