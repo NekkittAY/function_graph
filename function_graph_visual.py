@@ -60,7 +60,7 @@ def Calc_draw(func):
                 mass+=str(i)
             else:
                 mass+=j
-            i+=0.01
+            i+=0.0001
         try:
           res1=eval(mass)
         except:
