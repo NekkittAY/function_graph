@@ -98,7 +98,7 @@ def draw_func(result):
 
 res=[]
 graph = []
-func = str(input("y ="))
+func = str(input("y = "))
 calc = Calc(func)
 calc1 = Calc_draw(func)
 zero_graph = draw_graph()
