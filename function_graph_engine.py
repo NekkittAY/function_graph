@@ -196,6 +196,56 @@ def calc(func):
             result.append(res)
     return result
 
+def prov_func(func,y,x):
+    mass=""
+    for j in func:
+        if j == "x":
+            mass+=str(x)
+        elif j == "y":
+            mass+=str(y)
+        else:
+            mass+=j
+    res1=eval(mass)
+    return res1
+
+def Calc_LP_NLP(func,clr):
+    i=0
+    while i<=100:
+        mass=""
+        for j in func:
+            if j == "x":
+                mass+=str(i)
+            elif j in dict1:
+                pass
+            else:
+                mass+=j
+            i+=0.001
+        try:
+          res1=eval(mass)
+        except:
+          res1=10000
+        dot=Dot(250+i*10,250-res1*10,clr)
+        all_sprites.add(dot)
+
+def method(clr):
+    i=0
+    j=0
+    res=[]
+    while i<=100:
+        temp=[]
+        while j<=100:
+            for func1 in conditions:
+                temp.append(prov_func(func1,i,j))
+            if all(temp)==True:
+                res.append([j,i])
+                dot=Dot(250+j*10,250-i*10,clr)
+                all_sprites.add(dot)
+            temp=[]
+            j+=0.1
+        i+=0.1
+        j=0
+    return res
+
 def MSE(a,b,c,d):
     res=0
     for i in range(0,len(f1)-1):
@@ -275,5 +325,23 @@ def run_approximation(func):
     file = open('text.txt', 'w')
     file.write(str(res))
 
+def run_LP_NLP(function,func):
+    global conditions
+    global dict1
+    func = func.split()
+    conditions = []
+    dict1=[">","<","=","y"]
+    for i in range(len(func)):
+        clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+        conditions.append(func[i])
+        calc0 = Calc_LP_NLP(func[i],clr)
+    clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+    result = method(clr)
+    res = list(map(lambda x: prov_func(function,x[0],x[1]), result))
+    run()
+    file = open('text.txt', 'w')
+    file.write(str(max(res)))
+
     
+
 
