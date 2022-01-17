@@ -205,7 +205,10 @@ def prov_func(func,y,x):
             mass+=str(y)
         else:
             mass+=j
-    res1=eval(mass)
+    try:        
+        res1=eval(mass)
+    except:
+        res1=False
     return res1
 
 def Calc_LP_NLP(func,clr):
