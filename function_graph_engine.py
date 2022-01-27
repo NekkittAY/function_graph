@@ -149,7 +149,7 @@ def Calc(func,clr):
         mass=""
         for j in func:
             if j == "x":
-                mass+=str(i)
+                mass+="("+str(i)+")"
             else:
                 mass+=j
             i+=0.0001
@@ -205,7 +205,7 @@ def prov_func(func,y,x):
             mass+=str(y)
         else:
             mass+=j
-    try:        
+    try:
         res1=eval(mass)
     except:
         res1=False
@@ -229,6 +229,53 @@ def Calc_LP_NLP(func,clr):
           res1=10000
         dot=Dot(250+i*10,250-res1*10,clr)
         all_sprites.add(dot)
+
+def Calc_Newton(x,y,clr):
+    i=-10
+    while i<=10:
+        res1=poly_Newton(x,y,i)
+        i+=0.0001
+        dot=Dot(250+i*10,250-res1*10,clr)
+        all_sprites.add(dot)
+
+def delta(X):
+    if len(X)==2:
+        return (y[X[1]]-y[X[0]])/(x[X[1]]-x[X[0]])
+    else:
+        return (delta(list(range(1,len(X))))-delta(list(range(0,len(X)-1))))/(x[X[len(X)-1]]-x[X[0]])
+
+def poly_Newton(x,y,X):
+    Y=0
+    y0=y[0]
+    Y+=y0
+    t=2
+    for i in range(len(x)-1):
+        dy=delta(list(range(t+i)))
+        dx=1
+        for j in range(i+1):
+            dx*=(X-x[j])
+        dy*=dx
+        Y+=dy
+    return Y
+
+def integral_rect(a,b,x0,func):
+    res = 0
+    while a<=b:
+        res+=(prov_func(func,0,a)*x0)
+        a+=x0
+    return res
+
+def integral_dots(clr,a,b,func):
+    y=0
+    x=-10
+    while y<=100:
+        while x<=10:
+            if x>=a and x<=b and y<=prov_func(func,0,x):
+                dot=Dot(250+x*10,250-y*10,clr)
+                all_sprites.add(dot)
+            x+=0.1
+        x=0
+        y+=0.1
 
 def method(clr):
     i=0
@@ -308,6 +355,22 @@ def run_dots(Dots):
     graph.count()
     run()
 
+def run_Newton(Dots):
+    x = []
+    y = []
+    dots = Dots.split()
+    for i in range(len(dots)):
+        roots=dots[i].split(',')
+        x.append(float(roots[0]))
+        y.append(float(roots[1]))
+    for j in range(len(x)):
+        clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+        all_sprites.add(Roots('y',250-y[j]*10,clr))
+        all_sprites.add(Roots('x',250+x[j]*10,clr))
+    clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+    Calc_Newton(x,y,clr)
+    run()
+
 def run_approximation(func):
     global f1
     global f2
@@ -328,6 +391,16 @@ def run_approximation(func):
     file = open('text.txt', 'w')
     file.write(str(res))
 
+def run_integral_rect(a,b,func):
+    clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+    Calc(func,clr)
+    clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+    integral_dots(clr,int(a),int(b),func)
+    res = integral_rect(int(a),int(b),0.001,func)
+    file = open('text.txt', 'w')
+    file.write(str(res))
+    run()
+
 def run_LP_NLP(function,func):
     global conditions
     global dict1
@@ -344,6 +417,9 @@ def run_LP_NLP(function,func):
     run()
     file = open('text.txt', 'w')
     file.write(str(max(res)))
+
+    
+
 
     
 
