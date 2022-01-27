@@ -417,10 +417,3 @@ def run_LP_NLP(function,func):
     run()
     file = open('text.txt', 'w')
     file.write(str(max(res)))
-
-    
-
-
-    
-
-
