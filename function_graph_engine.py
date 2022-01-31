@@ -265,6 +265,30 @@ def integral_rect(a,b,x0,func):
         a+=x0
     return res
 
+def integral_simpson(a,b,func):
+    h=(b-a)/2
+    roots=[]
+    while a<=b:
+        res1 = prov_func(func,0,a)
+        roots.append(res1)
+        a+=h
+    res = 0
+    res+=(roots[0]+roots[len(roots)-1])
+    f0=0
+    f1=0
+    for i in range(len(roots)):
+        if not(i==0) and not(i==(len(roots)-1)):
+            if i%2==0:
+                f0+=roots[i]
+            else:
+                f1+=roots[i]
+    f0*=2
+    f1*=4
+    res+=f0
+    res+=f1
+    res*=(h/3)
+    return res
+
 def integral_dots(clr,a,b,func):
     y=0
     x=-10
@@ -401,6 +425,16 @@ def run_integral_rect(a,b,func):
     file.write(str(res))
     run()
 
+def run_integral_simpson(a,b,func):
+    clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+    Calc(func,clr)
+    clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+    integral_dots(clr,int(a),int(b),func)
+    res = integral_simpson(int(a),int(b),func)
+    file = open('text.txt', 'w')
+    file.write(str(res))
+    run()    
+
 def run_LP_NLP(function,func):
     global conditions
     global dict1
@@ -416,4 +450,10 @@ def run_LP_NLP(function,func):
     res = list(map(lambda x: prov_func(function,x[0],x[1]), result))
     run()
     file = open('text.txt', 'w')
-    file.write(str(max(res)))
+    try:
+        file.write(str(max(res)))
+    except:
+        file.write("None")
+
+    
+
