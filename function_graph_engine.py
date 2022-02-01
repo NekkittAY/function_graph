@@ -433,7 +433,17 @@ def run_integral_simpson(a,b,func):
     res = integral_simpson(int(a),int(b),func)
     file = open('text.txt', 'w')
     file.write(str(res))
-    run()    
+    run()
+
+def run_ode_euler(x0,y0,func):
+    h=0.0001
+    clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+    while x0<=10:
+        dot=Dot(250+x0*10,250-y0*10,clr)
+        all_sprites.add(dot)
+        x0+=h
+        y0 = y0+h*prov_func(func,y0,x0)
+    run()
 
 def run_LP_NLP(function,func):
     global conditions
@@ -454,6 +464,3 @@ def run_LP_NLP(function,func):
         file.write(str(max(res)))
     except:
         file.write("None")
-
-    
-
