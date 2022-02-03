@@ -445,6 +445,20 @@ def run_ode_euler(x0,y0,func):
         y0 = y0+h*prov_func(func,y0,x0)
     run()
 
+def run_ode_runge_kutta(x0,y0,func):
+    h=0.0001
+    clr=(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+    while x0<=10:
+        dot=Dot(250+x0*10,250-y0*10,clr)
+        all_sprites.add(dot)
+        x0+=h
+        k1 = prov_func(func,y0,x0)
+        k2 = prov_func(func,y0+(h/2)*k1,x0+(h/2))
+        k3 = prov_func(func,y0+(h/2)*k2,x0+(h/2))
+        k4 = prov_func(func,y0+h*k3,x0+h)
+        y0 = y0+(h/6)*(k1+2*k2+2*k3+k4)
+    run()
+
 def run_LP_NLP(function,func):
     global conditions
     global dict1
@@ -464,3 +478,5 @@ def run_LP_NLP(function,func):
         file.write(str(max(res)))
     except:
         file.write("None")
+
+   
